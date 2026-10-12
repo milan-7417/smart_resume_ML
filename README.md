@@ -17,6 +17,17 @@ An end-to-end Machine Learning application that analyzes resumes, predicts profe
 
 ---
 
+
+---
+
+<p align="center">
+  <img src="resume_homepage.png" alt="Resume Screening and Job Recommendation System Homepage" width="900">
+</p>
+
+---
+
+## Overview
+
 ## Overview
 
 The Resume Screening & Job Recommendation System automates parts of the initial resume review process using Natural Language Processing (NLP) techniques and traditional Machine Learning models.
