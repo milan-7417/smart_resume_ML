@@ -1,0 +1,1603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111827">
+
+    <title>ResumeAI | Smart Resume Screening</title>
+
+    <style>
+        :root {
+            --primary: #635bff;
+            --primary-dark: #4f46e5;
+            --background: #f5f7fb;
+            --surface: #ffffff;
+            --text: #172033;
+            --muted: #697586;
+            --border: #e4e8f0;
+            --success: #12805c;
+            --danger: #c24141;
+            --shadow: 0 12px 35px rgba(24, 39, 75, 0.07);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", sans-serif;
+            color: var(--text);
+            background: var(--background);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1120px, calc(100% - 40px));
+            margin: auto;
+        }
+
+        /* Navigation */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+        }
+
+        .brand-icon {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            color: white;
+            background: linear-gradient(135deg, #746bff, #4f46e5);
+            font-size: 21px;
+        }
+
+        .brand span:last-child span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-button {
+            background: #eeedff;
+            color: var(--primary-dark) !important;
+            padding: 10px 17px;
+            border-radius: 10px;
+        }
+
+        /* Hero */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 76px 0 72px;
+            color: white;
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(139, 92, 246, 0.4),
+                    transparent 29%
+                ),
+                linear-gradient(120deg, #111827, #202450 62%, #3730a3);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 13px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8bffca;
+        }
+
+        .hero h1 {
+            max-width: 650px;
+            margin: 23px 0 19px;
+            font-size: clamp(35px, 5vw, 55px);
+            line-height: 1.12;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #a9a2ff;
+        }
+
+        .hero-description {
+            max-width: 560px;
+            color: #d1d5e8;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            border: 0;
+            border-radius: 11px;
+            padding: 13px 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 7px 18px rgba(99, 91, 255, 0.23);
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .button-light {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .hero-note {
+            margin-top: 18px;
+            color: #c3c9dc;
+            font-size: 12px;
+        }
+
+        .hero-visual {
+            position: relative;
+            padding: 25px;
+        }
+
+        .visual-card {
+            position: relative;
+            max-width: 370px;
+            margin-left: auto;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 23px;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(14px);
+            transform: rotate(2deg);
+        }
+
+        .visual-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .visual-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .visual-badge {
+            color: #b9ffe2;
+            background: rgba(34, 197, 94, 0.14);
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+        }
+
+        .visual-profile {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            width: 55px;
+            height: 55px;
+            flex-shrink: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #a5b4fc, #ddd6fe);
+            color: #3730a3;
+            font-size: 24px;
+        }
+
+        .profile-lines strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        .profile-lines span {
+            color: #c4c8dc;
+            font-size: 12px;
+        }
+
+        .visual-label {
+            margin-bottom: 8px;
+            color: #c4c8dc;
+            font-size: 11px;
+        }
+
+        .visual-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .visual-tags span {
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            font-size: 11px;
+        }
+
+        .visual-result {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 15px;
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .visual-result small {
+            display: block;
+            color: #c4c8dc;
+            font-size: 10px;
+        }
+
+        .visual-result strong {
+            display: block;
+            margin-top: 3px;
+            font-size: 13px;
+        }
+
+        .sparkle {
+            font-size: 25px;
+        }
+
+        /* Feature section */
+
+        .section {
+            padding: 72px 0;
+        }
+
+        .section-heading {
+            max-width: 650px;
+            margin: 0 auto 36px;
+            text-align: center;
+        }
+
+        .section-label {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            margin-top: 9px;
+            font-size: clamp(26px, 3vw, 36px);
+            letter-spacing: -1px;
+        }
+
+        .section-heading p {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 27px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            display: grid;
+            place-items: center;
+            width: 49px;
+            height: 49px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            background: #eeedff;
+            font-size: 22px;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: #e2f8ee;
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: #fff0d8;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* Main upload area */
+
+        .workspace {
+            padding: 70px 0 85px;
+            background: #edf0f8;
+            border-top: 1px solid #e5e8f1;
+            border-bottom: 1px solid #e5e8f1;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .panel {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            padding: 24px 26px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-header h2 {
+            font-size: 19px;
+            letter-spacing: -0.4px;
+        }
+
+        .panel-header p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .panel-body {
+            padding: 26px;
+        }
+
+        .step-label {
+            display: block;
+            margin-bottom: 11px;
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .dropzone {
+            display: flex;
+            min-height: 225px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            border: 2px dashed #cbd0e3;
+            border-radius: 15px;
+            background: #fafaff;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .dropzone:hover,
+        .dropzone.dragover {
+            border-color: var(--primary);
+            background: #f2f1ff;
+        }
+
+        .upload-icon {
+            display: grid;
+            place-items: center;
+            width: 59px;
+            height: 59px;
+            margin-bottom: 15px;
+            border-radius: 17px;
+            color: var(--primary);
+            background: #e9e7ff;
+            font-size: 27px;
+        }
+
+        .dropzone strong {
+            font-size: 14px;
+        }
+
+        .dropzone p {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .browse-text {
+            color: var(--primary);
+            font-weight: 750;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .selected-file {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: #fff;
+        }
+
+        .file-symbol {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #eeedff;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .file-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-details strong {
+            display: block;
+            overflow: hidden;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-details small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .remove-file {
+            padding: 5px 8px;
+            border: 0;
+            background: transparent;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .submit-button {
+            width: 100%;
+            margin-top: 21px;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        .submit-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-note {
+            margin-top: 15px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .upload-error {
+            margin-top: 15px;
+            padding: 12px 14px;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            background: #fff1f2;
+            color: #b42318;
+            font-size: 13px;
+        }
+
+        /* Results */
+
+        .results-panel {
+            min-height: 410px;
+        }
+
+        .results-placeholder {
+            display: flex;
+            min-height: 320px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .placeholder-icon {
+            display: grid;
+            place-items: center;
+            width: 78px;
+            height: 78px;
+            margin-bottom: 20px;
+            border-radius: 23px;
+            background: #f0efff;
+            font-size: 34px;
+        }
+
+        .results-placeholder h3 {
+            font-size: 17px;
+        }
+
+        .results-placeholder p {
+            max-width: 310px;
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .results-content {
+            padding: 25px;
+        }
+
+        .success-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 21px;
+            padding: 14px;
+            border: 1px solid #b7ebd2;
+            border-radius: 12px;
+            background: #edfff6;
+        }
+
+        .success-icon {
+            display: grid;
+            place-items: center;
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #d2f7e5;
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        .success-banner strong {
+            display: block;
+            color: #11694b;
+            font-size: 13px;
+        }
+
+        .success-banner span {
+            display: block;
+            margin-top: 2px;
+            color: #4d7c69;
+            font-size: 11px;
+        }
+
+        .result-highlight {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 13px;
+            margin-bottom: 25px;
+        }
+
+        .highlight-card {
+            padding: 17px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: #fbfbff;
+        }
+
+        .highlight-card .result-icon {
+            font-size: 19px;
+        }
+
+        .highlight-card .result-label {
+            display: block;
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .highlight-card strong {
+            display: block;
+            margin-top: 4px;
+            overflow-wrap: anywhere;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .result-section {
+            margin-top: 24px;
+        }
+
+        .result-section h3 {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .info-item {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .info-item span {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .info-item strong {
+            display: block;
+            overflow-wrap: anywhere;
+            font-size: 12px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-flex;
+            padding: 7px 10px;
+            border: 1px solid #dedbff;
+            border-radius: 8px;
+            background: #f2f1ff;
+            color: #4f46a5;
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .education-tag {
+            border-color: #c6efdd;
+            background: #edfff6;
+            color: #11694b;
+        }
+
+        .empty-text {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .result-footer {
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* How it works */
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .step {
+            padding: 10px 5px;
+        }
+
+        .step-number {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            margin-bottom: 18px;
+            border-radius: 13px;
+            background: #eeedff;
+            color: var(--primary);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .step h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+
+        footer {
+            padding: 28px 0;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .footer-inner p,
+        .footer-links {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: min(100% - 28px, 1120px);
+            }
+
+            .nav-inner {
+                min-height: 66px;
+            }
+
+            .brand {
+                font-size: 18px;
+            }
+
+            .brand-icon {
+                width: 37px;
+                height: 37px;
+            }
+
+            .nav-links {
+                gap: 12px;
+                font-size: 12px;
+            }
+
+            .nav-links a:not(.nav-button) {
+                display: none;
+            }
+
+            .nav-button {
+                padding: 9px 11px;
+            }
+
+            .hero {
+                padding: 55px 0;
+            }
+
+            .hero h1 {
+                letter-spacing: -1.2px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .hero-actions .button {
+                width: 100%;
+            }
+
+            .section,
+            .workspace {
+                padding: 48px 0;
+            }
+
+            .panel-header,
+            .panel-body {
+                padding: 20px;
+            }
+
+            .result-highlight,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="/" class="brand" aria-label="ResumeAI home">
+                <span class="brand-icon">✦</span>
+                <span>Resume<span>AI</span></span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#analyzer" class="nav-button">Analyze Resume ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        AI-powered resume intelligence
+                    </div>
+
+                    <h1>
+                        Turn your resume into your
+                        <span>next opportunity.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Discover your professional category, explore
+                        job recommendations, and extract key information
+                        from your resume using machine learning.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#analyzer" class="button button-primary">
+                            Analyze My Resume <span>→</span>
+                        </a>
+
+                        <a href="#features" class="button button-light">
+                            Explore Features
+                        </a>
+                    </div>
+
+                    <p class="hero-note">
+                        Supports PDF and TXT files · No account required
+                    </p>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <div class="visual-card">
+                        <div class="visual-top">
+                            <span class="visual-title">
+                                Resume analysis preview
+                            </span>
+                            <span class="visual-badge">
+                                AI powered
+                            </span>
+                        </div>
+
+                        <div class="visual-profile">
+                            <div class="avatar">♙</div>
+                            <div class="profile-lines">
+                                <strong>Professional Profile</strong>
+                                <span>Resume information extraction</span>
+                            </div>
+                        </div>
+
+                        <p class="visual-label">Skills detected</p>
+
+                        <div class="visual-tags">
+                            <span>Python</span>
+                            <span>Machine Learning</span>
+                            <span>SQL</span>
+                            <span>Data Analysis</span>
+                        </div>
+
+                        <div class="visual-result">
+                            <div>
+                                <small>Recommended role</small>
+                                <strong>Based on resume content</strong>
+                            </div>
+                            <span class="sparkle">✧</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section" id="features">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="section-label">What you get</span>
+                    <h2>Everything you need to understand your resume</h2>
+                    <p>
+                        One simple workflow powered by trained machine
+                        learning models and text extraction.
+                    </p>
+                </div>
+
+                <div class="features">
+                    <article class="feature-card">
+                        <div class="feature-icon">◈</div>
+                        <h3>Resume Categorization</h3>
+                        <p>
+                            Predict a professional category from the
+                            text in your resume using a trained
+                            classification model.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">↗</div>
+                        <h3>Job Recommendations</h3>
+                        <p>
+                            Get a predicted job recommendation based
+                            on your resume's extracted text and
+                            trained recommendation classifier.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">▤</div>
+                        <h3>Resume Parsing</h3>
+                        <p>
+                            Extract likely contact details, skills,
+                            and education-related keywords from
+                            your uploaded resume.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload and Results -->
+        <section class="workspace" id="analyzer">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="section-label">Resume analyzer</span>
+                    <h2>Analyze your resume</h2>
+                    <p>
+                        Upload your resume and let the application
+                        process it using the configured ML models.
+                    </p>
+                </div>
+
+                <div class="workspace-grid">
+
+                    <!-- Upload panel -->
+                    <section class="panel">
+                        <div class="panel-header">
+                            <h2>Upload your resume</h2>
+                            <p>
+                                Select a PDF or plain-text resume to begin.
+                            </p>
+                        </div>
+
+                        <div class="panel-body">
+                            <form
+                                id="resumeForm"
+                                action="/predict"
+                                method="POST"
+                                enctype="multipart/form-data"
+                            >
+                                <label class="step-label" for="resume">
+                                    Select resume file
+                                </label>
+
+                                <label
+                                    class="dropzone"
+                                    id="dropzone"
+                                    for="resume"
+                                    tabindex="0"
+                                    role="button"
+                                    aria-label="Choose a PDF or TXT resume"
+                                >
+                                    <span class="upload-icon">↑</span>
+                                    <strong>Drag and drop your resume</strong>
+                                    <p>
+                                        or
+                                        <span class="browse-text">
+                                            browse files
+                                        </span>
+                                    </p>
+                                    <p>PDF or TXT · Maximum 10 MB</p>
+                                </label>
+
+                                <input
+                                    class="file-input"
+                                    id="resume"
+                                    name="resume"
+                                    type="file"
+                                    accept=".pdf,.txt,application/pdf,text/plain"
+                                    required
+                                >
+
+                                <div
+                                    class="selected-file"
+                                    id="selectedFile"
+                                    aria-live="polite"
+                                >
+                                    <span class="file-symbol">▤</span>
+                                    <div class="file-details">
+                                        <strong id="fileName">
+                                            resume.pdf
+                                        </strong>
+                                        <small id="fileSize">
+                                            Ready to upload
+                                        </small>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        class="remove-file"
+                                        id="removeFile"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="button button-primary submit-button"
+                                    id="submitButton"
+                                >
+                                    <span id="submitIcon">✦</span>
+                                    <span id="submitText">
+                                        Analyze Resume
+                                    </span>
+                                </button>
+
+                                <p class="privacy-note">
+                                    Upload only documents you have
+                                    permission to process.
+                                </p>
+
+                                <div
+                                    class="upload-error"
+                                    id="uploadError"
+                                    role="alert"
+                                    hidden
+                                ></div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- Results panel -->
+                    <section class="panel results-panel" id="results">
+                        <div class="panel-header">
+                            <h2>Analysis results</h2>
+                            <p>
+                                Your predicted category and extracted
+                                resume information appear here.
+                            </p>
+                        </div>
+
+                        {% if message %}
+                            <div class="results-content">
+                                <div class="upload-error" role="alert">
+                                    {{ message }}
+                                </div>
+                            </div>
+
+                        {% elif predicted_category is defined
+                               and predicted_category is not none %}
+
+                            <div class="results-content">
+                                <div class="success-banner">
+                                    <span class="success-icon">✓</span>
+                                    <div>
+                                        <strong>
+                                            Resume analysis completed
+                                        </strong>
+                                        <span>
+                                            Results generated successfully
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="result-highlight">
+                                    <div class="highlight-card">
+                                        <span class="result-icon">◈</span>
+                                        <span class="result-label">
+                                            Predicted category
+                                        </span>
+                                        <strong>
+                                            {{ predicted_category }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="highlight-card">
+                                        <span class="result-icon">↗</span>
+                                        <span class="result-label">
+                                            Recommended job
+                                        </span>
+                                        <strong>
+                                            {{ recommended_job
+                                               or "Not available" }}
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="result-section">
+                                    <h3>Personal information</h3>
+
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <span>Full name</span>
+                                            <strong>
+                                                {{ name or "Not detected" }}
+                                            </strong>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span>Email address</span>
+                                            <strong>
+                                                {{ email or "Not detected" }}
+                                            </strong>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span>Phone number</span>
+                                            <strong>
+                                                {{ phone or "Not detected" }}
+                                            </strong>
+                                        </div>
+
+                                        <div class="info-item">
+                                            <span>Uploaded file</span>
+                                            <strong>
+                                                {{ filename or "Resume" }}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="result-section">
+                                    <h3>
+                                        Skills detected
+                                        {% if extracted_skills %}
+                                            ({{ extracted_skills | length }})
+                                        {% endif %}
+                                    </h3>
+
+                                    {% if extracted_skills %}
+                                        <div class="tag-list">
+                                            {% for skill in extracted_skills %}
+                                                <span class="tag">
+                                                    {{ skill }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <p class="empty-text">
+                                            No matching skills were detected
+                                            from the configured skills list.
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="result-section">
+                                    <h3>Education detected</h3>
+
+                                    {% if extracted_education %}
+                                        <div class="tag-list">
+                                            {% for item in extracted_education %}
+                                                <span class="tag education-tag">
+                                                    {{ item }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <p class="empty-text">
+                                            No matching education keywords
+                                            were detected.
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="result-footer">
+                                    Predictions and extracted details
+                                    may contain errors. Review them
+                                    before making career decisions.
+                                </div>
+                            </div>
+
+                        {% else %}
+                            <div class="results-placeholder">
+                                <div class="placeholder-icon">✧</div>
+                                <h3>Your results will appear here</h3>
+                                <p>
+                                    Upload a resume and select
+                                    "Analyze Resume" to view its predicted
+                                    category, job recommendation, skills,
+                                    education, and contact details.
+                                </p>
+                            </div>
+                        {% endif %}
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="section" id="how-it-works">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="section-label">Simple workflow</span>
+                    <h2>How it works</h2>
+                    <p>
+                        Three steps from uploading a resume to
+                        reviewing the analysis.
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <article class="step">
+                        <div class="step-number">01</div>
+                        <h3>Upload your resume</h3>
+                        <p>
+                            Choose a PDF or TXT file containing
+                            selectable, readable text.
+                        </p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">02</div>
+                        <h3>Process with machine learning</h3>
+                        <p>
+                            The backend extracts text, transforms it
+                            using TF-IDF vectorizers, and runs the
+                            trained classification models.
+                        </p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">03</div>
+                        <h3>Review your results</h3>
+                        <p>
+                            View the predicted category, recommended
+                            role, and the resume details detected
+                            by the parsing functions.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <a href="/" class="brand">
+                <span class="brand-icon">✦</span>
+                <span>Resume<span>AI</span></span>
+            </a>
+
+            <p>
+                ResumeAI · Machine Learning Resume Screening
+            </p>
+
+            <div class="footer-links">
+                <a href="/docs">API Docs</a>
+                <a href="/health">System Status</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Upload interaction -->
+    <script>
+        const form = document.getElementById("resumeForm");
+        const input = document.getElementById("resume");
+        const dropzone = document.getElementById("dropzone");
+        const selectedFile = document.getElementById("selectedFile");
+        const fileName = document.getElementById("fileName");
+        const fileSize = document.getElementById("fileSize");
+        const removeFile = document.getElementById("removeFile");
+        const uploadError = document.getElementById("uploadError");
+        const submitButton = document.getElementById("submitButton");
+        const submitText = document.getElementById("submitText");
+
+        const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+        function showError(message) {
+            uploadError.textContent = message;
+            uploadError.hidden = false;
+        }
+
+        function clearError() {
+            uploadError.textContent = "";
+            uploadError.hidden = true;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) {
+                return bytes + " bytes";
+            }
+
+            if (bytes < 1024 * 1024) {
+                return (bytes / 1024).toFixed(1) + " KB";
+            }
+
+            return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+        }
+
+        function updateSelectedFile(file) {
+            clearError();
+
+            if (!file) {
+                selectedFile.style.display = "none";
+                return;
+            }
+
+            const lowerName = file.name.toLowerCase();
+            const validExtension =
+                lowerName.endsWith(".pdf") ||
+                lowerName.endsWith(".txt");
+
+            if (!validExtension) {
+                input.value = "";
+                selectedFile.style.display = "none";
+                showError("Please choose a PDF or TXT file.");
+                return;
+            }
+
+            if (file.size > MAX_FILE_SIZE) {
+                input.value = "";
+                selectedFile.style.display = "none";
+                showError("The file is too large. Maximum size is 10 MB.");
+                return;
+            }
+
+            if (file.size === 0) {
+                input.value = "";
+                selectedFile.style.display = "none";
+                showError("The selected file is empty.");
+                return;
+            }
+
+            fileName.textContent = file.name;
+            fileSize.textContent =
+                formatFileSize(file.size) + " · Ready to upload";
+
+            selectedFile.style.display = "flex";
+        }
+
+        input.addEventListener("change", function () {
+            updateSelectedFile(input.files[0]);
+        });
+
+        removeFile.addEventListener("click", function () {
+            input.value = "";
+            selectedFile.style.display = "none";
+            clearError();
+        });
+
+        dropzone.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                input.click();
+            }
+        });
+
+        ["dragenter", "dragover"].forEach(function (eventName) {
+            dropzone.addEventListener(eventName, function (event) {
+                event.preventDefault();
+                dropzone.classList.add("dragover");
+            });
+        });
+
+        ["dragleave", "drop"].forEach(function (eventName) {
+            dropzone.addEventListener(eventName, function (event) {
+                event.preventDefault();
+                dropzone.classList.remove("dragover");
+            });
+        });
+
+        dropzone.addEventListener("drop", function (event) {
+            const files = event.dataTransfer.files;
+
+            if (!files || files.length === 0) {
+                return;
+            }
+
+            try {
+                const transfer = new DataTransfer();
+                transfer.items.add(files[0]);
+                input.files = transfer.files;
+                updateSelectedFile(files[0]);
+            } catch (error) {
+                showError(
+                    "Unable to select the dropped file. Please browse for it."
+                );
+            }
+        });
+
+        form.addEventListener("submit", function (event) {
+            clearError();
+
+            const file = input.files[0];
+
+            if (!file) {
+                event.preventDefault();
+                showError("Please select a resume before continuing.");
+                return;
+            }
+
+            if (
+                file.size > MAX_FILE_SIZE ||
+                file.size === 0 ||
+                !/\.(pdf|txt)$/i.test(file.name)
+            ) {
+                event.preventDefault();
+                updateSelectedFile(file);
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitText.textContent = "Analyzing resume...";
+        });
+
+        // Bring completed results into view after a form submission.
+        const hasResults = JSON.parse('{{ (message or (predicted_category is defined and predicted_category is not none)) | tojson }}');
+
+        if (hasResults) {
+            window.addEventListener("load", function () {
+                document.getElementById("results").scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
