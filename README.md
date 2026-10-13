@@ -26,7 +26,6 @@ An end-to-end Machine Learning application that analyzes resumes, predicts profe
 
 ---
 
-## Overview
 
 ## Overview
 
